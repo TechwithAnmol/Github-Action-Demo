@@ -29,7 +29,7 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: '/var/www/html/'
+          SOURCE_DIR: /var/www/html/
       # - name: Upload S3
       #   uses: shallwefootball/s3-upload-action@master
       #   with:
