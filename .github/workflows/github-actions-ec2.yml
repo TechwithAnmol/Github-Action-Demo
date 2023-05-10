@@ -22,7 +22,7 @@ jobs:
           repository: ${{ env.SOURCE_REPO_OWNER }}/${{ env.SOURCE_REPO_NAME }}
           ref: ${{ env.SOURCE_BRANCH }}
       - name: check
-        run: ll
+        run: ls
 
 
 
