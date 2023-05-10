@@ -10,7 +10,7 @@ env:
   REPO_NAMES: |
     static-testing-demo-iboss
 jobs:
-  create-and-push:
+  create-and-pull:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,17 +24,27 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git add "${FILE_NAME}"
-          git commit -m "Add ${FILE_NAME}"
-      
-      - name: Push changes
-        run: |
+
           for repo in ${{ env.REPO_NAMES }}
           do
-            echo "Pushing to $repo..."
             git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
-            git push origin HEAD:main
+            git pull origin HEAD:main
           done
+          ls
+          git add "${FILE_NAME}"
+          git commit -m "Add ${FILE_NAME}"
+          
+#   push:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Push changes
+#         run: |
+#           for repo in ${{ env.REPO_NAMES }}
+#           do
+#             echo "Pushing to $repo..."
+#             git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
+#             git push origin HEAD:main
+#           done
 
 
 
