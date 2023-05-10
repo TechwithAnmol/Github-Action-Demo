@@ -28,7 +28,7 @@ jobs:
           for repo in ${{ env.REPO_NAMES }}
           do
             git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
-            git pull origin HEAD:main
+            git pull origin main
           done
           ls
           git add "${FILE_NAME}"
