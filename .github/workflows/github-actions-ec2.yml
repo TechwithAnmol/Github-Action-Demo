@@ -1,34 +1,72 @@
-name: Push-to-EC2
+name: Create and Push New File
 
-# Trigger deployment only on push to main branch
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
+env:
+  FILE_NAME: example.txt
+  FILE_CONTENT: Hello, world!
+  REPO_NAMES: |
+    static-testing-demo-iboss
 jobs:
-  deploy:
-    name: Deploy to EC2 on main branch push
+  create-and-push:
     runs-on: ubuntu-latest
     steps:
-    #checkout the code from github
-      - name: Checkout the files
+      - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Create new file
+        run: |
+          echo "${FILE_CONTENT}" > "${FILE_NAME}"
+      
+      - name: Commit new file
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add "${FILE_NAME}"
+          git commit -m "Add ${FILE_NAME}"
+      
+      - name: Push changes
+        run: |
+          for repo in ${{ env.REPO_NAMES }}; do
+            echo "Pushing to $repo..."
+            git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
+            git push origin HEAD:main
+          done
+
+
+
+# name: Push-to-EC2
+
+# # Trigger deployment only on push to main branch
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     name: Deploy to EC2 on main branch push
+#     runs-on: ubuntu-latest
+#     steps:
+#     #checkout the code from github
+#       - name: Checkout the files
+#         uses: actions/checkout@v2
         
-    #Deploty the code to target server
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: /var/www/html
-          
-#     #push the code to amazon s3 bucket
-#       - uses: jakejarvis/s3-sync-action@master
-#         with:
-#           args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
+#     #Deploty the code to target server
+#       - name: Deploy to Server 1
+#         uses: easingthemes/ssh-deploy@main
 #         env:
-#           AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET }}
-#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+#           REMOTE_HOST: ${{ secrets.HOST_DNS }}
+#           REMOTE_USER: ${{ secrets.USERNAME }}
+#           TARGET: /var/www/html
+          
+# #     #push the code to amazon s3 bucket
+# #       - uses: jakejarvis/s3-sync-action@master
+# #         with:
+# #           args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
+# #         env:
+# #           AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET }}
+# #           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+# #           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
