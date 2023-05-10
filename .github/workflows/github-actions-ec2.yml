@@ -29,7 +29,8 @@ jobs:
       
       - name: Push changes
         run: |
-          for repo in ${{ env.REPO_NAMES }}; do
+          for repo in ${{ env.REPO_NAMES }}
+          do
             echo "Pushing to $repo..."
             git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
             git push origin HEAD:main
