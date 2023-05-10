@@ -19,7 +19,7 @@ jobs:
       - name: Pull code from another repository
 #         uses: actions/checkout@v2
         run: |
-            git pull {{ env.SOURCE_REPO_NAME }} ${{ env.SOURCE_BRANCH }}
+            https://github.com/anniimol/static-testing-demo-iboss.git
 #         with:
 #           repository: ${{ env.SOURCE_REPO_OWNER }}/${{ env.SOURCE_REPO_NAME }}
 #           ref: ${{ env.SOURCE_BRANCH }}
