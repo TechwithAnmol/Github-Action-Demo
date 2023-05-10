@@ -1,50 +1,28 @@
-name: Create and Push New File
+name: Pull Code from Another Repository
 
 on:
   push:
     branches:
       - main
 env:
-  FILE_NAME: example.txt
-  FILE_CONTENT: Hello, world!
-  REPO_NAMES: |
-    static-testing-demo-iboss
+  SOURCE_REPO_OWNER: anniimol
+  SOURCE_REPO_NAME: static-testing-demo-iboss
+  SOURCE_BRANCH: main
+
 jobs:
-  create-and-pull:
+  pull-code:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Create new file
-        run: |
-          echo "${FILE_CONTENT}" > "${FILE_NAME}"
-      
-      - name: Commit new file
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-
-          for repo in ${{ env.REPO_NAMES }}
-          do
-            git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
-            git pull origin main
-          done
-          ls
-          git add "${FILE_NAME}"
-          git commit -m "Add ${FILE_NAME}"
-          
-#   push:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Push changes
-#         run: |
-#           for repo in ${{ env.REPO_NAMES }}
-#           do
-#             echo "Pushing to $repo..."
-#             git remote set-url origin "https://github.com/$GITHUB_REPOSITORY"
-#             git push origin HEAD:main
-#           done
+      - name: Pull code from another repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.SOURCE_REPO_OWNER }}/${{ env.SOURCE_REPO_NAME }}
+          ref: ${{ env.SOURCE_BRANCH }}
+      - name: check
+        run: ll
 
 
 
