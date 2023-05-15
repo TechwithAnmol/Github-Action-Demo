@@ -23,6 +23,8 @@ jobs:
         run: |
             cd static-testing-demo-iboss
             ls
+            git config user.name "anniimol"
+            git config user.email "im.anmol.tuteja@gmail.com.com"
             touch hello_test_anmol_singh.txt
             git add .
             git commit -m "automation trials"
