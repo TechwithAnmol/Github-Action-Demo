@@ -24,7 +24,6 @@ jobs:
             cd static-testing-demo-iboss
             ls
             touch hello_test_anmol_singh.txt
-            git init 
             git add .
             git commit -m "automation trials"
             git push https://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@github.com/anniimol/static-testing-demo-iboss.git
