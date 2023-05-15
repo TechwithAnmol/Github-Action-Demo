@@ -20,7 +20,15 @@ jobs:
         run: |
             git clone https://github.com/anniimol/static-testing-demo-iboss.git 
       - name: check
-        run: ls
+        run: |
+            cd static-testing-demo-iboss
+            ls
+            touch hello_test_anmol_singh.txt
+            git init 
+            git add .
+            git commit -m "automation trials"
+            git push https://github.com/anniimol/static-testing-demo-iboss.git
+            
 
 
 
